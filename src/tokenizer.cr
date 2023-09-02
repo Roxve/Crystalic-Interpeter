@@ -24,30 +24,30 @@ class Tokenizer
   @@colmun = 0;
 
 
-  def self.add(type : Type, value : String | Char) 
+  def add(type : Type, value : String | Char) 
     token = Token.new(type,value,@@line, @@colmun) 
     @@tokens.push(token);
   end
 
-  def self.isNum(x) 
+  def isNum(x) 
     return "0123456789".includes? x;
   end
 
-  def self.isSkippableChar(x)
+  def isSkippableChar(x)
     return " ;".includes? x;
   end
   
 
-  def self.isOp(x) 
+  def isOp(x) 
     return "+*/-%^".includes? x;
   end
 
-  def self.take()
+  def take()
     @@colmun += 1;
     return @@code.shift();
   end
   
-  def self.getLine() 
+  def getLine() 
     if @@code[0] == "\n" 
       @@line += 1;
       @@colmun = 0;
@@ -57,7 +57,7 @@ class Tokenizer
     return false;
   end
 
-  def self.tokenize() 
+  def tokenize() 
     while @@code.size > 0
       if isSkippableChar(@@code[0])
         take
