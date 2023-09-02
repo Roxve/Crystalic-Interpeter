@@ -1,4 +1,5 @@
 require "./tokenizer.cr";
+require "./parser/parser.cr";
 
 puts "Welcome to The Crystalic*Interpeter"
 
@@ -8,7 +9,10 @@ while true
   code : String = gets || "0"
   tokenizer = Tokenizer.new(code)
   tokenized = tokenizer.tokenize
-  puts tokenized
+  parser = Parser.new(tokenized);
+
+  ast = parser.productAST();
+  puts ast.body
 end
 
 

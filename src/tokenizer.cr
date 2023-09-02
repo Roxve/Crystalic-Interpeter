@@ -1,6 +1,7 @@
 enum Type
   Operator
   Num
+  EOF
 end
 
 class Token
@@ -76,6 +77,7 @@ class Tokenizer
         take;
       end
     end
+    add(Type::EOF, "END");
     return @@tokens;
   end
 end
