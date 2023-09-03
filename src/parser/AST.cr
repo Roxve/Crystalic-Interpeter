@@ -40,7 +40,7 @@ end
 
 class Num < Expr
   @type = "Num";
-  def initialize(@value : Int32, line, colmun) 
+  def initialize(@value : Float32 | Float64, line, colmun) 
     @line = line;
     @colmun = colmun;
   end

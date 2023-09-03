@@ -71,7 +71,7 @@ class Parser
   def parse_primary_expr() : Expr 
     case at().type 
       when Type::Num
-        num = Num.new(take().value.to_i,@@line,@@colmun);
+        num = Num.new(take().value.to_f,@@line,@@colmun);
         return num;
       else
         puts "error unexcepted token found while parsing\ngot => type:#{at().type},value:#{at().value}"

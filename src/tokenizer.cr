@@ -31,7 +31,7 @@ class Tokenizer
   end
 
   def isNum(x) 
-    return "0123456789".includes? x;
+    return "01234.56789".includes? x;
   end
 
   def isSkippableChar(x)
