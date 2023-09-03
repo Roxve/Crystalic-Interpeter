@@ -28,7 +28,30 @@ def eval_binary_expr(expr : Expr) : RuntimeVal
     when '^'
       results = mk_NUM(lhs.value ** rhs.value);
     else
+      #.this shouldnt happen!
       puts "err"
   end
   return results
+end
+
+def eval_unary_expr(expr : UnaryExpr) : RuntimeVal
+  rhs = Interpeter.evaluate(expr.right);
+
+  if rhs.type != "num"
+    puts "error excepted right hand side of type num in UnaryExpr\nat => line:#{expr.line}, colmun:#{expr.colmun}";
+    return mk_NULL();
+  end
+
+  rhs = rhs.as(NumVal);
+  results : RuntimeVal = mk_NUM(0);
+
+  case expr.operator
+  when '-'
+    results = mk_NUM(-rhs.value);
+  when '+'
+    return mk_NUM(+rhs.value);
+  else
+    puts "err";
+  end
+  return results;
 end

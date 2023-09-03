@@ -22,7 +22,9 @@ module Interpeter
       last = eval_program(expr.as(Program));
     when "BinaryExpr"
       last = eval_binary_expr(expr);
-    when "Num" 
+    when "UnaryExpr"
+      last = eval_unary_expr(expr.as(UnaryExpr));
+    when "Num"
       last = mk_NUM(expr.as(Num).value);
     when "Null" 
       last = mk_NULL();
