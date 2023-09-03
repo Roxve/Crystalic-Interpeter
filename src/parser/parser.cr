@@ -87,7 +87,7 @@ class Parser
         end
         operator = take.value;
         num = parse_expr;
-        return OneHandBinaryExpr.new(num, operator, @@line, @@colmun);
+        return UnaryExpr.new(num, operator, @@line, @@colmun);
       else
         puts "error unexcepted token found while parsing\ngot => type:#{at().type},value:#{at().value}"
         take;
