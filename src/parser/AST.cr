@@ -1,5 +1,15 @@
+enum NodeType
+  Expr
+  Program
+  BinaryExpr
+  UnaryExpr
+  Num
+  Null
+end
+
+
 abstract class Expr
-  @type : String = "Expr";
+  @type : NodeType = NodeType::Expr;
   @line : Int32 = 1;
   @colmun : Int32 = 0;
   getter line;
@@ -13,7 +23,7 @@ end
 
 
 class Program < Expr 
-  @type = "Program";
+  @type = NodeType::Program;
   @body : Array(Expr) = [] of Expr;
   getter body;
   def initialize()
@@ -24,7 +34,7 @@ end
 
 
 class BinaryExpr < Expr
-  @type = "BinaryExpr";
+  @type = NodeType::BinaryExpr;
   def initialize(@left : Expr, @right : Expr, @operator : String | Char, line, colmun)
     @line = line;
     @colmun = colmun;
@@ -35,7 +45,7 @@ class BinaryExpr < Expr
 end
 
 class UnaryExpr < Expr
-  @type = "UnaryExpr"
+  @type = NodeType::UnaryExpr;
   def initialize(@right : Expr, @operator : String | Char, @line, @colmun)
   end
   getter right;
@@ -45,7 +55,7 @@ end
 
 
 class Num < Expr
-  @type = "Num";
+  @type = NodeType::Num;
   def initialize(@value : Float32 | Float64, line, colmun) 
     @line = line;
     @colmun = colmun;
@@ -55,7 +65,7 @@ end
 
 
 class Null < Expr
-  @type = "Null";
+  @type = NodeType::Null;
   def initialize(line, colmun) 
     @line = line;
     @colmun = colmun

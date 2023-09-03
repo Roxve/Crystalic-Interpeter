@@ -18,15 +18,15 @@ module Interpeter
     @@colmun = expr.colmun; 
     last : RuntimeVal = mk_NULL();
     case expr.type
-    when "Program"
+    when NodeType::Program
       last = eval_program(expr.as(Program));
-    when "BinaryExpr"
+    when NodeType::BinaryExpr
       last = eval_binary_expr(expr);
-    when "UnaryExpr"
+    when NodeType::UnaryExpr
       last = eval_unary_expr(expr.as(UnaryExpr));
-    when "Num"
+    when NodeType::Num
       last = mk_NUM(expr.as(Num).value);
-    when "Null" 
+    when NodeType::Null
       last = mk_NULL();
     else
       last = mk_NULL();
