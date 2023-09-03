@@ -26,6 +26,13 @@ class Parser
     return @Tokens.shift();
   end
 
+  def except(correct_type : Type, msg : String)
+    if at().type != correct_type
+      puts msg + "\nat => line:#{at().line}, colmun:#{at().colmun}";
+    end
+    return take();
+  end
+
   def productAST() : Program
     prog = Program.new;
 
@@ -73,10 +80,18 @@ class Parser
       when Type::Num
         num = Num.new(take().value.to_f,@@line,@@colmun);
         return num;
+      when Type::Operator
+        if at().value != '-' && at().value != '+'
+            puts "error cannot use operator '#{at().value}' without vaild left hand side\nat => line:#{@@line}, colmun:#{@@colmun}";
+            return Null.new(@@line, @@colmun);
+        end
+        operator = take.value;
+        num = parse_expr;
+        return OneHandBinaryExpr.new(num, operator, @@line, @@colmun);
       else
         puts "error unexcepted token found while parsing\ngot => type:#{at().type},value:#{at().value}"
         take;
         return Null.new(@@line, @@colmun);
     end
-  end
+end
 end

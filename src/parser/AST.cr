@@ -34,7 +34,13 @@ class BinaryExpr < Expr
   getter operator;
 end
 
-
+class OneHandBinaryExpr < Expr
+  @type = "OneHandBinaryExpr"
+  def initialize(@right : Expr, @operator : String | Char, @line, @colmun)
+  end
+  getter right;
+  getter operator;
+end
 
 
 
