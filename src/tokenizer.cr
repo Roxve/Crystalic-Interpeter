@@ -6,7 +6,7 @@ enum Type
   EOF
 end
 
-class Token
+struct Token
   getter type;
   getter value;
   getter line;
