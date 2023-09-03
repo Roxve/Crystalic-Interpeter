@@ -1,10 +1,11 @@
 abstract class RuntimeVal 
-  @@type : String = "";
+  @type : String = "";
+  getter type;
 end
 
 
 class NumVal < RuntimeVal
-  @@type = "num";
+  @type = "num";
   @value : Int32 | Int64 | Float32 | Float64
   def initialize(value : Int | Float32 | Float64) 
     @value = value;
@@ -13,7 +14,7 @@ class NumVal < RuntimeVal
 end
 
 class NullVal < RuntimeVal
-  @@type = "null"
+  @type = "null"
   @value : Nil;
   def initialize()
     @value = nil;

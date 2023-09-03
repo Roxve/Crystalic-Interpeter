@@ -62,13 +62,24 @@ class Parser
 
 
   def parse_multipicative_expr() : Expr
-    left : Expr = parse_primary_expr;
+    left : Expr = parse_squared_expr;
     while at().value == '*' || at().value == '/' || at().value == '%'
       operator = take().value;
       
-      right = parse_primary_expr;
+      right = parse_squared_expr;
 
       left = BinaryExpr.new(left, right, operator, @@line, @@colmun);
+    end
+    return left;
+  end
+
+  def parse_squared_expr() : Expr
+    left : Expr = parse_primary_expr;
+    while at().value == '^'
+      take;
+      right = parse_primary_expr;
+
+      left = BinaryExpr.new(left, right, '^', @@line, @@colmun);
     end
     return left;
   end
@@ -80,9 +91,15 @@ class Parser
       when Type::Num
         num = Num.new(take().value.to_f,@@line,@@colmun);
         return num;
+      when Type::OpenParen
+        take; 
+        expr = parse_expr;
+        except(Type::CloseParen, "excepted ')'");
+        return expr;
       when Type::Operator
         if at().value != '-' && at().value != '+'
             puts "error cannot use operator '#{at().value}' without vaild left hand side\nat => line:#{@@line}, colmun:#{@@colmun}";
+            take;
             return Null.new(@@line, @@colmun);
         end
         operator = take.value;

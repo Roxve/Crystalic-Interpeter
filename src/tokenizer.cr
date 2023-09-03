@@ -1,6 +1,8 @@
 enum Type
   Operator
   Num
+  OpenParen
+  CloseParen
   EOF
 end
 
@@ -35,7 +37,7 @@ class Tokenizer
   end
 
   def isSkippableChar(x)
-    return " ;".includes? x;
+    return " ;".includes?(x) || x == "\t";
   end
   
 
@@ -72,6 +74,10 @@ class Tokenizer
       # does nothing
       elsif isOp(@@code[0])
         add(Type::Operator, take);
+      elsif @@code[0] == '('
+        add(Type::OpenParen, take)
+      elsif @@code[0] == ')'
+        add(Type::CloseParen, take)
       else 
         puts "unknown char '#{@@code[0]}' at line:#{@@line},colmun:#{@@colmun}";
         take;
