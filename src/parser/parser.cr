@@ -38,8 +38,35 @@ class Parser
 
   # acts as a return to the first expr to parse
   def parse_expr() : Expr
-    return parse_primary_expr;
+    return parse_additive_expr;
   end
+
+  # handles add and minus exprs 1 + 1,1 - 1
+  def parse_additive_expr() : Expr
+    left : Expr = parse_multipicative_expr;
+    while at().value == '+' || at().value == '-'
+      operator = take().value;
+      right = parse_multipicative_expr;
+
+      left = BinaryExpr.new(left, right, operator, @@line, @@colmun);
+    end
+    return left;
+  end
+
+
+  def parse_multipicative_expr() : Expr
+    left : Expr = parse_primary_expr;
+    while at().value == '*' || at().value == '/' || at().value == '%'
+      operator = take().value;
+      
+      right = parse_primary_expr;
+
+      left = BinaryExpr.new(left, right, operator, @@line, @@colmun);
+    end
+    return left;
+  end
+
+
 
   def parse_primary_expr() : Expr 
     case at().type 

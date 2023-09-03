@@ -1,6 +1,7 @@
 require "./tokenizer.cr";
 require "./parser/parser.cr";
-
+require "./interpeter/main.cr"
+require "./parser/AST.cr";
 puts "Welcome to The Crystalic*Interpeter"
 
 while true 
@@ -12,7 +13,8 @@ while true
   parser = Parser.new(tokenized);
 
   ast = parser.productAST();
-  puts ast.body
+  run = Interpeter.eval_program(ast.as(Program));
+  puts run.value
 end
 
 
