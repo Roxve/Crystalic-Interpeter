@@ -4,6 +4,9 @@ you can use this to build your own Interpeter as its really small and simple to 
 
 ### sad fact: this was written with no code autocompletion );
 # Features
+- coolest repl i made! you will think its colors is buggy
+but no it has a meaning yello for numbers green for strings
+and blue for add mode! the colors change dynamicly!
 - tokenizer(lexer) & Parser on the same step which gives a huge speed boost!
 - interpreter
 # can do 
