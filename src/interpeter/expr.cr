@@ -11,7 +11,7 @@ def eval_binary_expr(expr : Expr, env : Enviroment) : RuntimeVal
   lhs = Interpeter.evaluate(expr.left,env)
   rhs = Interpeter.evaluate(expr.right,env)
 
-  if lhs.type != "num" && rhs.type != "num" 
+  if lhs.type != "num" || rhs.type != "num" 
     puts "excepted left hand of num and righ hand of num in binary expr\nat => line:#{expr.right.line}, colmun:#{expr.right.colmun}"
     return results;
   end
