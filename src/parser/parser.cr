@@ -10,8 +10,7 @@ class Parser
   def initialize(code : String)
     @Tokenizer = Tokenizer.new code;
     # gets the first token
-    @Tokenizer.tokenize
-    @Token = @Tokenizer.current_token
+    @Token = @Tokenizer.tokenize
   end
 
   @@line = 1;
@@ -34,8 +33,7 @@ class Parser
 
   def take() 
     prev = @Token;
-    @Tokenizer.tokenize;
-    @Token = @Tokenizer.current_token;
+    @Token = @Tokenizer.tokenize;
     update
 
     return prev;

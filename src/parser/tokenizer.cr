@@ -60,6 +60,8 @@ struct Tokenizer
   end
 
   def tokenize() 
+    #this is desinged to only give one token!
+
     while @@code.size > 0 && isSkippableChar(@@code[0])
       take
     end
@@ -69,10 +71,13 @@ struct Tokenizer
     end
 
     case @@code[0]
+    # operators!
     when '+','-','*','/','^'
       add(Type::Operator, take)
+    # numbers!
     when '0','1','2','3','4','5','6','7', '8', '9'
       res : String = "";
+      # to make a number of multipli chars ex. instead of '1' we make '668,77' as a single number
       while @@code.size > 0 && isNum(@@code[0])
         res += take
       end
@@ -83,6 +88,7 @@ struct Tokenizer
       add(Type::CloseParen, take)
     else
       if getLine() 
+      # what it does is definded in the getline func i did this to detecte lines in strings
       # does nothing
       else 
         puts "unknown char '#{@@code[0]}' at line:#{@@line},colmun:#{@@colmun}";
