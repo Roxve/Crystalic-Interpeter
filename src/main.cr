@@ -1,4 +1,3 @@
-require "./tokenizer.cr";
 require "./parser/parser.cr";
 require "./interpeter/main.cr"
 require "./parser/AST.cr";
@@ -11,10 +10,9 @@ while true
   if code.upcase.includes? "EXIT"
     exit
   end
-  tokenizer = Tokenizer.new(code)
-  tokenized = tokenizer.tokenize
-  parser = Parser.new(tokenized);
+  
 
+  parser = Parser.new(code);
   ast = parser.productAST();
   run = Interpeter.eval_program(ast.as(Program));
   puts run.value

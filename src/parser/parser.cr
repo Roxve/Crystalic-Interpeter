@@ -1,20 +1,31 @@
 require "./AST.cr";
-require "../tokenizer.cr";
+require "./tokenizer.cr";
 
 class Parser
-  def initialize(@Tokens : Array(Token)) 
+  @Tokenizer : Tokenizer;
+
+  # same as Tokenizer.current_token but its more fancy!
+  @Token : Token;
+
+  def initialize(code : String)
+    @Tokenizer = Tokenizer.new code;
+    # gets the first token
+    @Tokenizer.tokenize
+    @Token = @Tokenizer.current_token
   end
+
   @@line = 1;
   @@colmun = 0;
+
   def update() 
-    @@line = @Tokens[0].line
-    @@colmun = @Tokens[0].colmun
+    @@line = @Token.line
+    @@colmun = @Token.colmun
   end
   
   # updates line and colmun info and returns current token
   def at()
     update;
-    return @Tokens[0];
+    return @Token;
   end
 
   def notEOF()
@@ -22,8 +33,12 @@ class Parser
   end
 
   def take() 
-    update;
-    return @Tokens.shift();
+    prev = @Token;
+    @Tokenizer.tokenize;
+    @Token = @Tokenizer.current_token;
+    update
+
+    return prev;
   end
 
   def except(correct_type : Type, msg : String)

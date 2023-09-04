@@ -3,6 +3,7 @@ enum Type
   Num
   OpenParen
   CloseParen
+  Err
   EOF
 end
 
@@ -16,20 +17,23 @@ struct Token
 end
 
 
-class Tokenizer
+struct Tokenizer
   @@code = [] of String
-  @@tokens = [] of Token
   def initialize(code : String) 
     @@code = code.chars;
-    @@tokens = [] of Token
+  end
+
+  def code
+    @@code
   end
   @@line = 1;
   @@colmun = 0;
-
+  @current_token : Token = Token.new(Type::Err, "unknown", @@line, @@colmun);
+  getter current_token
 
   def add(type : Type, value : String | Char) 
     token = Token.new(type,value,@@line, @@colmun) 
-    @@tokens.push(token);
+    @current_token = token;
   end
 
   def isNum(x) 
@@ -40,11 +44,6 @@ class Tokenizer
     return " ;".includes?(x) || x == "\t";
   end
   
-
-  def isOp(x) 
-    return "+*/-%^".includes? x;
-  end
-
   def take()
     @@colmun += 1;
     return @@code.shift();
@@ -61,29 +60,35 @@ class Tokenizer
   end
 
   def tokenize() 
-    while @@code.size > 0
-      if isSkippableChar(@@code[0])
-        take
-      elsif isNum(@@code[0]) 
-        res : String = "";
-        while @@code.size > 0 && isNum(@@code[0]) 
-          res += take
-        end
-        add(Type::Num, res);
-      elsif getLine() 
+    while @@code.size > 0 && isSkippableChar(@@code[0])
+      take
+    end
+    if @@code.size <= 0
+      add(Type::EOF, "<EOF>");
+      return @current_token;
+    end
+
+    case @@code[0]
+    when '+','-','*','/','^'
+      add(Type::Operator, take)
+    when '0','1','2','3','4','5','6','7', '8', '9'
+      res : String = "";
+      while @@code.size > 0 && isNum(@@code[0])
+        res += take
+      end
+      add(Type::Num, res)
+    when '('
+      add(Type::OpenParen, take)
+    when ')'
+      add(Type::CloseParen, take)
+    else
+      if getLine() 
       # does nothing
-      elsif isOp(@@code[0])
-        add(Type::Operator, take);
-      elsif @@code[0] == '('
-        add(Type::OpenParen, take)
-      elsif @@code[0] == ')'
-        add(Type::CloseParen, take)
       else 
         puts "unknown char '#{@@code[0]}' at line:#{@@line},colmun:#{@@colmun}";
-        take;
+        add(Type::Err, take)
       end
     end
-    add(Type::EOF, "END");
-    return @@tokens;
+    return @current_token;
   end
 end
