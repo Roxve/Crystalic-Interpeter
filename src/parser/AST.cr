@@ -5,6 +5,7 @@ enum NodeType
   UnaryExpr
   Num
   Null
+  Id
 end
 
 
@@ -70,4 +71,11 @@ class Null < Expr
     @line = line;
     @colmun = colmun
   end
+end
+
+class IdExpr < Expr
+  @type = NodeType::Id;
+  def initialize(@symbol : String | Char,@line, @colmun)
+  end
+  getter symbol;
 end

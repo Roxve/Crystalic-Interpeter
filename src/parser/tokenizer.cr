@@ -1,6 +1,7 @@
 enum Type
   Operator
   Num
+  Id
   OpenParen
   CloseParen
   Err
@@ -36,6 +37,11 @@ struct Tokenizer
     @current_token = token;
   end
 
+  def isAllowedId(x)
+    # anything can be an id except operators and all types of Open/Close Brackets!
+
+    return !isSkippableChar(x) && !("+*-/%&|^<=>({[]})".includes? x);
+  end
   def isNum(x) 
     return "01234.56789".includes? x;
   end
@@ -90,6 +96,12 @@ struct Tokenizer
       if getLine() 
       # what it does is definded in the getline func i did this to detecte lines in strings
       # does nothing
+      elsif isAllowedId(@@code[0])
+        ress : String = "";
+        while @@code.size > 0 && isAllowedId(@@code[0]) 
+          ress += take;
+        end
+        add(Type::Id, ress)
       else 
         puts "unknown char '#{@@code[0]}' at line:#{@@line},colmun:#{@@colmun}";
         add(Type::Err, take)

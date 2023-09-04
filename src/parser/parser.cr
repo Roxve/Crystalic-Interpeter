@@ -104,6 +104,9 @@ class Parser
       when Type::Num
         num = Num.new(take().value.to_f,@@line,@@colmun);
         return num;
+      when Type::Id
+        id = IdExpr.new(take().value, @@line, @@colmun);
+        return id;
       when Type::OpenParen
         take; 
         expr = parse_expr;
