@@ -4,9 +4,7 @@ you can use this to build your own Interpeter as its really small and simple to 
 
 ### sad fact: this was written with no code autocompletion );
 # Features
-- tokenizer(lexer)
-- AST
-- parser
+- tokenizer(lexer) & Parser on the same step which gives a huge speed boost!
 - interpreter
 # can do 
 - 8 + 8 * 8 - -8 / 8 # 73.0
