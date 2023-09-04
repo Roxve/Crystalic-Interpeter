@@ -2,13 +2,11 @@ require "./parser/parser.cr";
 require "./interpeter/main.cr"
 require "./parser/AST.cr";
 require "./interpeter/enviroments.cr";
-
+require "readline"
 puts "Welcome to The Crystalic*Interpeter\nType 'exit' to exit!"
 
 while true 
-  print(">>");
-  STDOUT.flush
-  code : String = gets || "0"
+  code : String = Readline.readline(">> ") || "0"
   if code.upcase.includes? "EXIT"
     exit
   end
