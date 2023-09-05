@@ -2,6 +2,7 @@ require "../parser/AST.cr";
 require "./main.cr";
 require"./values.cr"
 require "./enviroments.cr";
+require "math"
 
 # since we only do math if you want to make this a programming lang
 # you have to spilt this method
@@ -51,6 +52,8 @@ def eval_unary_expr(expr : UnaryExpr, env : Enviroment) : RuntimeVal
     results = mk_NUM(-rhs.value);
   when '+'
     return mk_NUM(+rhs.value);
+  when '√'
+    return mk_NUM(Math.sqrt(rhs.value));
   else
     puts "err";
   end

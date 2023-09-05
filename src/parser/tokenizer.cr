@@ -40,7 +40,7 @@ struct Tokenizer
   def isAllowedId(x)
     # anything can be an id except operators and all types of Open/Close Brackets!
 
-    return !isSkippableChar(x) && !("+*-/%&|^<=>({[]})".includes? x);
+    return !isSkippableChar(x) && !("+*-/%√&|^<=>({[]})".includes? x);
   end
   def isNum(x) 
     return "01234.56789".includes? x;
@@ -78,7 +78,7 @@ struct Tokenizer
 
     case @@code[0]
     # operators!
-    when '+','-','*','/','^'
+    when '+','-','*','/','^', '√'
       add(Type::Operator, take)
     # numbers!
     when '0','1','2','3','4','5','6','7', '8', '9'

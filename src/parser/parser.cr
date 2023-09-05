@@ -1,7 +1,9 @@
 require "./AST.cr";
 require "./tokenizer.cr";
 
-class Parser
+
+# this is a Partt parser!
+struct Parser
   @Tokenizer : Tokenizer;
 
   # same as Tokenizer.current_token but its more fancy!
@@ -60,6 +62,15 @@ class Parser
   def parse_expr() : Expr
     return parse_additive_expr;
   end
+  
+
+  # order is below:
+  # expr
+  # additive binary expr => +,-
+  # multipactive binary expr => *,/,%
+  # squared binary expr (idk what is it in english) => ^
+  # unary expr =>, -1,+1, √1 (redirects to expr not to primary)
+  # primary expr => finds nums ids & more;
 
   # handles add and minus exprs 1 + 1,1 - 1
   def parse_additive_expr() : Expr
@@ -112,8 +123,14 @@ class Parser
         expr = parse_expr;
         except(Type::CloseParen, "excepted ')'");
         return expr;
+      when Type::Err
+        take;
+
+        # i dont think of making an error system for this!
+        # make it yourself!
+        return Null.new(@@line, @@colmun)
       when Type::Operator
-        if at().value != '-' && at().value != '+'
+        if at().value != '-' && at().value != '+' && at().value != '√'
             puts "error cannot use operator '#{at().value}' without vaild left hand side\nat => line:#{@@line}, colmun:#{@@colmun}";
             take;
             return Null.new(@@line, @@colmun);
