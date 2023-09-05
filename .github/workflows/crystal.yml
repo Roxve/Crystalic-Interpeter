@@ -1,0 +1,30 @@
+name: Crystal CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: crystallang/crystal
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: cd src && shards install
+    - name: Run Build!
+      run: |
+           mkdir ./out/
+           mkdir ./out/linux-x64 
+           mkdir ./out/linux-arm64-unknown
+           crystal -o ./out/linux-x64/crystalic 
+    - uses: actions/upload-artifact@v3
+      with: 
+        name: linux-x64 
+        path: ./out/linux-x64/*
