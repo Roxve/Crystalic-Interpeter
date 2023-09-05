@@ -16,4 +16,4 @@ and blue for add mode! the colors change dynamicly!
 - interpreter
 # can do 
 - (8 + 8 * 8 - -8 / 8) * √π # 129.38913111610265
-### this porject is finished! the only things left is some optimization, a logo,release some binaries for people who wanna test! 
+### this porject is finished! the only things left is a logo!
