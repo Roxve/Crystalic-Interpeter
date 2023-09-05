@@ -23,7 +23,7 @@ jobs:
            mkdir ./out/
            mkdir ./out/linux-x64 
            mkdir ./out/linux-arm64-unknown
-           crystal -o ./out/linux-x64/crystalic 
+           crystal build -o ./out/linux-x64/crystalic 
     - uses: actions/upload-artifact@v3
       with: 
         name: linux-x64 
